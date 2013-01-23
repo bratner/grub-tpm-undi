@@ -14,10 +14,20 @@ Network boot problem
 When the boot is done from netwok. A NIC with TPM support will download the pxe boot executable
 from the assigned server, measure it into the PCRs and run it. 
 The problem is that even 2 years after this project was completed most network cards don't
-support TPM. Thus create a security hole.
+support TPM. Thus break the chain of trust during boot.
 
-Solaris x86 grub has UNDI network driver, TCG Grub supports TPM - here they combined.
 
-To be able to trust a remote kiosk in a hostile network is a problem that is solved
-by the TPM module. If every stage of your boot process is measured before execution
-into TPM's hashed register (PCRs) and you can get a crypto-signed quote from the module
+Grub 0.97
+------------
+Grub 0.97 has almost no network support for modern network cards.
+But Trusted Computing Group published a patched version of Grub 0.97 with TPM support.
+
+UNDI
+-----
+Most or all modern network cards have a built-in simple network driver in their ROM. 
+This (UNDI) driver has a standard and accessible to software from the very early boot stages.
+Solaris x86 has UNDI support and some other features. 
+
+Integration
+------------
+The result is a port of TCG patches to a Solaris X86 Grub 0.97
